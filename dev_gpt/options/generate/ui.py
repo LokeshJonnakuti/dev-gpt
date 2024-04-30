@@ -1,5 +1,5 @@
-import random
 from dataclasses import dataclass
+import secrets
 
 product_manager_names = [
     ('Leon', 'm'),
@@ -74,6 +74,6 @@ class Employee:
     emoji: str
 
 def get_random_employee(role: str) -> Employee:
-    name, gender = random.choice(product_manager_names)
+    name, gender = secrets.choice(product_manager_names)
     emoji = role_to_gender_to_emoji[role][gender]
     return Employee(role, name, gender, emoji)
