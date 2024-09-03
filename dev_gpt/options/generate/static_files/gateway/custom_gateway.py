@@ -9,6 +9,7 @@ from jina import Gateway
 from jina.serve.runtimes.gateway.composite import CompositeGateway
 from streamlit.file_util import get_streamlit_file_path
 from streamlit.web.server import Server as StreamlitServer
+from security import safe_command
 
 
 cur_dir = os.path.dirname(__file__)
@@ -18,11 +19,10 @@ def cmd(command, std_output=False, wait=True):
     if isinstance(command, str):
         command = command.split()
     if not std_output:
-        process = subprocess.Popen(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        process = safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
     else:
-        process = subprocess.Popen(command)
+        process = safe_command.run(subprocess.Popen, command)
     if wait:
         output, error = process.communicate()
         return output, error
