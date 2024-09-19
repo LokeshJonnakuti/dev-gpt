@@ -2,6 +2,7 @@ import os
 from typing import Optional
 
 import requests
+from security import safe_requests
 
 
 def google_search(search_term, search_type, top_n):
@@ -15,7 +16,7 @@ def google_search(search_term, search_type, top_n):
         **({'searchType': search_type} if search_type == 'image' else {}),
         'num': top_n
     }
-    response = requests.get(url, params=params)
+    response = safe_requests.get(url, params=params)
     response.raise_for_status()
     return response.json()
 

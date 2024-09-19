@@ -19,13 +19,14 @@ from jina import Flow
 from dev_gpt.constants import DEMO_TOKEN
 from dev_gpt.utils.io import suppress_stdout, is_docker_running
 from dev_gpt.utils.string_tools import print_colored, clean_large_words
+from security import safe_requests
 
 
 def wait_until_app_is_ready(url):
     is_app_ready = False
     while not is_app_ready:
         try:
-            response = requests.get(url)
+            response = safe_requests.get(url)
             print('waiting for app to be ready...')
             if response.status_code == 200:
                 is_app_ready = True
@@ -138,7 +139,7 @@ def _push_executor(dir_path):
 
 def is_executor_in_hub(microservice_name):
     url = f'https://api.hubble.jina.ai/v2/rpc/executor.list?search={microservice_name}&withAnonymous=true'
-    resp = requests.get(url)
+    resp = safe_requests.get(url)
     executor_list = resp.json()['data']
     for executor in executor_list:
         if 'name' in executor and executor['name'] == microservice_name:
