@@ -15,7 +15,7 @@ def google_search(search_term, search_type, top_n):
         **({'searchType': search_type} if search_type == 'image' else {}),
         'num': top_n
     }
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, timeout=60)
     response.raise_for_status()
     return response.json()
 

@@ -11,7 +11,7 @@ def is_package_on_pypi(package_name, version=None):
     """
     optional_version = f"/{version}" if version else ""
     url = f"https://pypi.org/pypi/{package_name}{optional_version}/json"
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     return response.status_code == 200 and len(response.json()['urls']) > 0
 
 
@@ -20,7 +20,7 @@ def get_latest_package_version(package_name):
     Returns the latest version of a package that is not older than 2021.
     """
     url = f'https://pypi.org/pypi/{package_name}/json'
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     if response.status_code != 200:
         return None
     data = response.json()
