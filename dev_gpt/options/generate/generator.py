@@ -1,6 +1,5 @@
 import json
 import os
-import random
 import re
 import shutil
 import sys
@@ -35,6 +34,7 @@ from dev_gpt.options.generate.templates_user import template_generate_microservi
     response_format_was_solution_tried_before, response_format_suggest_solutions
 from dev_gpt.utils.io import persist_file, get_all_microservice_files_with_content, get_microservice_path
 from dev_gpt.utils.string_tools import print_colored
+import secrets
 
 
 @dataclass
@@ -544,7 +544,7 @@ pytest
         os.makedirs(self.microservice_root_path)
         self.microservice_specification.task, self.microservice_specification.test = PM().refine_specification(self.microservice_specification.task)
         generated_name = self.generate_microservice_name(self.microservice_specification.task)
-        self.microservice_name = f'{generated_name}{random.randint(0, 10_000_000)}'
+        self.microservice_name = f'{generated_name}{secrets.SystemRandom().randint(0, 10_000_000)}'
         packages_list = self.get_possible_packages()
         for num_approach, packages in enumerate(packages_list):
             try:
