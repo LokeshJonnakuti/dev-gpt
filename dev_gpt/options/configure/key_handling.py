@@ -4,6 +4,7 @@ import re
 import subprocess
 
 import click
+from security import safe_command
 
 try:
     import psutil
@@ -96,7 +97,7 @@ def set_api_key(name, key):
 
     if system_platform == "windows":
         set_env_variable_command = f'setx {name} "{key}"'
-        subprocess.call(set_env_variable_command, shell=True)
+        safe_command.run(subprocess.call, set_env_variable_command, shell=True)
         click.echo(f'''
 ✅ Success, {name} has been set.
 Please restart your Command Prompt to apply the changes.
